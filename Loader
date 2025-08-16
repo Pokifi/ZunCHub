@@ -2,7 +2,7 @@
 
 -- Lista de jogos e scripts
 local games = {
-    [11653088948] = "https://raw.githubusercontent.com/Pokifi/ZunCHub/refs/heads/main/Jurassic-Block"
+    [11653088948] = "https://raw.githubusercontent.com/Pokifi/ZunCHub/refs/heads/main/noobvil%C3%A3o"
 }
 
 local currentId = game.PlaceId
