@@ -1,0 +1,23 @@
+-- Loader Universal
+
+-- Lista de jogos e scripts
+local games = {
+    [11653088948] = "https://raw.githubusercontent.com/Pokifi/ZunCHub/refs/heads/main/Jurassic-Block"
+}
+
+local currentId = game.PlaceId
+
+if games[currentId] then
+    local url = games[currentId]
+    local success, err = pcall(function()
+        loadstring(game:HttpGet(url))()
+    end)
+
+    if success then
+        print("[Loader] Script carregado para o jogo:", currentId)
+    else
+        warn("[Loader] Erro ao carregar script:", err)
+    end
+else
+    warn("[Loader] Nenhum script configurado para este jogo. ID atual:", currentId)
+end
