@@ -55,7 +55,7 @@ local function runSpeedScript()
     ScreenGui:Destroy()
     -- roda o script que você me mandou
     loadstring([[
-        
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Pokifi/ZunCHub/refs/heads/main/Jurassic-Block"))()
     ]])()
 end
 
