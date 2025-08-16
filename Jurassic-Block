@@ -1,0 +1,204 @@
+-- Coloque em StarterPlayer > StarterPlayerScripts
+
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Velocidade inicial
+local desiredSpeed = 16
+
+-- Travar velocidade
+local function lockSpeed()
+    if humanoid and humanoid.WalkSpeed ~= desiredSpeed then
+        humanoid.WalkSpeed = desiredSpeed
+    end
+end
+RunService.Heartbeat:Connect(lockSpeed)
+
+player.CharacterAdded:Connect(function(char)
+    character = char
+    humanoid = character:WaitForChild("Humanoid")
+    humanoid.WalkSpeed = desiredSpeed
+    RunService.Heartbeat:Connect(lockSpeed)
+end)
+
+-- =========================
+-- UI PRINCIPAL
+-- =========================
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "SpeedUI"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = player:WaitForChild("PlayerGui")
+
+local Frame = Instance.new("Frame")
+Frame.Size = UDim2.new(0, 260, 0, 160)
+Frame.Position = UDim2.new(0.5, -130, 0.5, -80)
+Frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+Frame.BorderSizePixel = 0
+Frame.Active = true
+Frame.Draggable = true
+Frame.Parent = ScreenGui
+
+Instance.new("UICorner", Frame).CornerRadius = UDim.new(0, 12)
+
+local UIStroke = Instance.new("UIStroke", Frame)
+UIStroke.Color = Color3.fromRGB(0, 200, 255)
+UIStroke.Thickness = 2
+
+-- Caixa de texto
+local TextBox = Instance.new("TextBox")
+TextBox.Size = UDim2.new(0, 200, 0, 30)
+TextBox.Position = UDim2.new(0.5, -100, 0, 30)
+TextBox.PlaceholderText = "Digite a velocidade..."
+TextBox.Text = tostring(desiredSpeed)
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+TextBox.BorderSizePixel = 0
+TextBox.Parent = Frame
+Instance.new("UICorner", TextBox).CornerRadius = UDim.new(0, 8)
+
+-- Botão aplicar
+local ApplyBtn = Instance.new("TextButton")
+ApplyBtn.Size = UDim2.new(0, 200, 0, 30)
+ApplyBtn.Position = UDim2.new(0.5, -100, 0, 70)
+ApplyBtn.Text = "Aplicar Velocidade"
+ApplyBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+ApplyBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+ApplyBtn.BorderSizePixel = 0
+ApplyBtn.Parent = Frame
+Instance.new("UICorner", ApplyBtn).CornerRadius = UDim.new(0, 8)
+
+-- Botão -
+local MinusBtn = Instance.new("TextButton")
+MinusBtn.Size = UDim2.new(0, 40, 0, 30)
+MinusBtn.Position = UDim2.new(0, 20, 0, 115)
+MinusBtn.Text = "-"
+MinusBtn.TextScaled = true
+MinusBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+MinusBtn.BackgroundColor3 = Color3.fromRGB(200, 60, 60)
+MinusBtn.BorderSizePixel = 0
+MinusBtn.Parent = Frame
+Instance.new("UICorner", MinusBtn).CornerRadius = UDim.new(0, 8)
+
+-- Botão +
+local PlusBtn = Instance.new("TextButton")
+PlusBtn.Size = UDim2.new(0, 40, 0, 30)
+PlusBtn.Position = UDim2.new(1, -60, 0, 115)
+PlusBtn.Text = "+"
+PlusBtn.TextScaled = true
+PlusBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+PlusBtn.BackgroundColor3 = Color3.fromRGB(60, 200, 60)
+PlusBtn.BorderSizePixel = 0
+PlusBtn.Parent = Frame
+Instance.new("UICorner", PlusBtn).CornerRadius = UDim.new(0, 8)
+
+-- Botão fechar
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Size = UDim2.new(0, 25, 0, 25)
+CloseBtn.Position = UDim2.new(1, -30, 0, 5)
+CloseBtn.Text = "✕"
+CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+CloseBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+CloseBtn.BorderSizePixel = 0
+CloseBtn.Parent = Frame
+Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(1, 0)
+
+-- Botão esconder
+local HideBtn = Instance.new("TextButton")
+HideBtn.Size = UDim2.new(0, 25, 0, 25)
+HideBtn.Position = UDim2.new(1, -60, 0, 5)
+HideBtn.Text = "-"
+HideBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+HideBtn.BackgroundColor3 = Color3.fromRGB(255, 170, 0)
+HideBtn.BorderSizePixel = 0
+HideBtn.Parent = Frame
+Instance.new("UICorner", HideBtn).CornerRadius = UDim.new(1, 0)
+
+-- =========================
+-- CONFIRMAÇÃO DE FECHAR
+-- =========================
+local ConfirmFrame = Instance.new("Frame")
+ConfirmFrame.Size = UDim2.new(0, 200, 0, 100)
+ConfirmFrame.Position = UDim2.new(0.5, -100, 0.5, -50)
+ConfirmFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+ConfirmFrame.Visible = false
+ConfirmFrame.Parent = ScreenGui
+Instance.new("UICorner", ConfirmFrame).CornerRadius = UDim.new(0, 12)
+
+local ConfirmText = Instance.new("TextLabel")
+ConfirmText.Size = UDim2.new(1, 0, 0, 40)
+ConfirmText.Text = "Fechar a UI?"
+ConfirmText.TextColor3 = Color3.fromRGB(255, 255, 255)
+ConfirmText.BackgroundTransparency = 1
+ConfirmText.Parent = ConfirmFrame
+
+local YesBtn = Instance.new("TextButton")
+YesBtn.Size = UDim2.new(0, 80, 0, 30)
+YesBtn.Position = UDim2.new(0.25, -40, 0, 55)
+YesBtn.Text = "Sim"
+YesBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+YesBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+YesBtn.Parent = ConfirmFrame
+Instance.new("UICorner", YesBtn).CornerRadius = UDim.new(0, 8)
+
+local NoBtn = Instance.new("TextButton")
+NoBtn.Size = UDim2.new(0, 80, 0, 30)
+NoBtn.Position = UDim2.new(0.75, -40, 0, 55)
+NoBtn.Text = "Não"
+NoBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+NoBtn.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
+NoBtn.Parent = ConfirmFrame
+Instance.new("UICorner", NoBtn).CornerRadius = UDim.new(0, 8)
+
+-- =========================
+-- FUNÇÕES
+-- =========================
+local function applySpeed(num)
+    desiredSpeed = math.max(0, num)
+    humanoid.WalkSpeed = desiredSpeed
+    TextBox.Text = tostring(desiredSpeed)
+end
+
+ApplyBtn.MouseButton1Click:Connect(function()
+    local num = tonumber(TextBox.Text)
+    if num then applySpeed(num) end
+end)
+
+PlusBtn.MouseButton1Click:Connect(function()
+    applySpeed(desiredSpeed + 5)
+end)
+
+MinusBtn.MouseButton1Click:Connect(function()
+    applySpeed(desiredSpeed - 5)
+end)
+
+-- Esconder
+local hidden = false
+HideBtn.MouseButton1Click:Connect(function()
+    hidden = not hidden
+    for _, v in pairs(Frame:GetChildren()) do
+        if v ~= HideBtn and v ~= CloseBtn and v:IsA("GuiObject") then
+            v.Visible = not hidden
+        end
+    end
+    Frame.Size = hidden and UDim2.new(0, 120, 0, 30) or UDim2.new(0, 260, 0, 160)
+end)
+
+-- Fechar
+CloseBtn.MouseButton1Click:Connect(function()
+    ConfirmFrame.Visible = true
+end)
+
+YesBtn.MouseButton1Click:Connect(function()
+    ScreenGui:Destroy()
+    ConfirmFrame:Destroy()
+end)
+
+NoBtn.MouseButton1Click:Connect(function()
+    ConfirmFrame.Visible = false
+end)
