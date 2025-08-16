@@ -1,0 +1,92 @@
+-- Loader interativo para Jurassic Blocky
+-- Coloque em StarterPlayer > StarterPlayerScripts
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local PlayerGui = player:WaitForChild("PlayerGui")
+
+--====================
+-- TELA DE PERGUNTA
+--====================
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "LoaderUI"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = PlayerGui
+
+local Frame = Instance.new("Frame")
+Frame.Size = UDim2.new(0, 300, 0, 150)
+Frame.Position = UDim2.new(0.5, -150, 0.5, -75)
+Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+Frame.Parent = ScreenGui
+Instance.new("UICorner", Frame).CornerRadius = UDim.new(0, 12)
+
+local Label = Instance.new("TextLabel")
+Label.Size = UDim2.new(1, 0, 0, 50)
+Label.Text = "Quer jogar Jurassic Blocky?"
+Label.TextScaled = true
+Label.TextColor3 = Color3.fromRGB(255, 255, 255)
+Label.BackgroundTransparency = 1
+Label.Parent = Frame
+
+local YesBtn = Instance.new("TextButton")
+YesBtn.Size = UDim2.new(0, 100, 0, 40)
+YesBtn.Position = UDim2.new(0.25, -50, 0.6, -20)
+YesBtn.Text = "Sim"
+YesBtn.TextScaled = true
+YesBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+YesBtn.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
+YesBtn.Parent = Frame
+Instance.new("UICorner", YesBtn).CornerRadius = UDim.new(0, 8)
+
+local NoBtn = Instance.new("TextButton")
+NoBtn.Size = UDim2.new(0, 100, 0, 40)
+NoBtn.Position = UDim2.new(0.75, -50, 0.6, -20)
+NoBtn.Text = "Não"
+NoBtn.TextScaled = true
+NoBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+NoBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+NoBtn.Parent = Frame
+Instance.new("UICorner", NoBtn).CornerRadius = UDim.new(0, 8)
+
+--====================
+-- FUNÇÃO PARA RODAR SCRIPT DE VELOCIDADE
+--====================
+local function runSpeedScript()
+    ScreenGui:Destroy()
+    -- roda o script que você me mandou
+    loadstring([[
+        
+    ]])()
+end
+
+--====================
+-- BOTÃO SIM
+--====================
+YesBtn.MouseButton1Click:Connect(function()
+    runSpeedScript()
+end)
+
+--====================
+-- BOTÃO NÃO
+--====================
+NoBtn.MouseButton1Click:Connect(function()
+    Frame:Destroy()
+
+    local BlackScreen = Instance.new("Frame")
+    BlackScreen.Size = UDim2.new(1, 0, 1, 0)
+    BlackScreen.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    BlackScreen.Parent = ScreenGui
+
+    local NoobLabel = Instance.new("TextLabel")
+    NoobLabel.Size = UDim2.new(1, 0, 1, 0)
+    NoobLabel.Text = "NOOB"
+    NoobLabel.TextScaled = true
+    NoobLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+    NoobLabel.BackgroundTransparency = 1
+    NoobLabel.Parent = BlackScreen
+
+    -- Espera 10 segundos antes de rodar o script mesmo assim
+    task.delay(10, function()
+        runSpeedScript()
+    end)
+end)
